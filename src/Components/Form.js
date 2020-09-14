@@ -25,6 +25,7 @@ const Form = () => {
 
     // State de listado de criptoMonedas
     const [cryptoList, setCryptoList] = useState([]);
+    const [error, setError] = useState(false);
 
     const MONEDAS = [
         {codigo: 'USD', nombre: 'Dolar de Estados Unidos'},
@@ -52,8 +53,12 @@ const Form = () => {
         APIrequest()
     }, [])
 
+    const cotizarMoneda = (e) => {
+        e.preventDefault();
+    }
+
     return (
-        <form>
+        <form onsubmit={cotizarMoneda} >
             <Seleccionar />
             <SelectCrypto />
             <Boton type='submit' value='Calculate' />

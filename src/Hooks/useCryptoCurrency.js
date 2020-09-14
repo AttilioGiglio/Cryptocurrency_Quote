@@ -22,7 +22,6 @@ font-size: 1.2rem;
 
 const useCryptoCurrency = (label, stateInicial, opciones) => {
 
-    console.log(opciones);
     // State de custom Hook
     const [state, setState] = useState(stateInicial);
 
@@ -31,9 +30,9 @@ const useCryptoCurrency = (label, stateInicial, opciones) => {
         <Fragment>
             <Label>{label}</Label>
             <Select onChange={e => setState(e.target.value)} value={state} >
-                {/* {opciones.map(opcion => (
-                 <option key={opcion.codigo} value={opcion.codigo}>{opcion.nombre}</option>
-            ))} */}
+                {opciones.map(opcion => (
+                 <option key={opcion.CoinInfo.Id} value={opcion.CoinInfo.Name}>{opcion.CoinInfo.FullName}</option>
+            ))}
             </Select>
         </Fragment>
     );
