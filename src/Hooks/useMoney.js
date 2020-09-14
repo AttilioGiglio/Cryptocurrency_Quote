@@ -2,7 +2,7 @@ import React, {Fragment, useState} from 'react';
 import styled from '@emotion/styled';
 
 
-const useMoney = () => {
+const useMoney = (label, stateInicial, opciones) => {
 
     const Label = styled.label`
     font-family: 'Bebas Neue', cursive;
@@ -26,14 +26,16 @@ const Select = styled.select`
 
 
     // State de custom Hook
-    const [state, setState] = useState('');
+    const [state, setState] = useState(stateInicial);
 
     const Seleccionar = () => (
         <Fragment>
-        <label>Moneda</label>
-        <select>
-            <option value='MXN'>Peso Mexicano</option>
-        </select>
+        <Label>{label}</Label>
+        <Select onChange={e=> setState(e.target.value)} value={state} >
+            {opciones.map(opcion => (
+                 <option key={opcion.codigo} value={opcion.codigo}>{opcion.nombre}</option>
+            ))}
+        </Select>
         </Fragment>
     );
 
