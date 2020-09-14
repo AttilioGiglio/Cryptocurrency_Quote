@@ -22,7 +22,7 @@ const Boton = styled.input`
     }
 `;
 
-const Form = () => {
+const Form = ({setMoney, setCryptoCurrency}) => {
 
     // State de listado de criptoMonedas
     const [cryptoList, setCryptoList] = useState([]);
@@ -37,7 +37,7 @@ const Form = () => {
     ]
     
     // utilizar useMoney
-    const [money, Seleccionar, setMoney] = useMoney('Elige tu moneda', '', MONEDAS);
+    const [coin, Seleccionar, setCoin] = useMoney('Elige tu moneda', '', MONEDAS);
 
     // utilizar useCriptocurrency
     const [crypto, SelectCrypto, setCrypto] = useCryptoCurrency('Elige tu criptomoneda', '', cryptoList);
@@ -57,12 +57,14 @@ const Form = () => {
     const cotizarMoneda = (e) => {
         e.preventDefault();
         // validar si ambos campos estan llenos
-        if(money === '' || crypto === ''){
+        if(coin === '' || crypto === ''){
             setError(true);
             return;
         }
         // Pasar los datos al componente principal
         setError(false);
+        setMoney(coin);
+        setCryptoCurrency(crypto);
     }
 
     return (

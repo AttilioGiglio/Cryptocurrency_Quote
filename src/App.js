@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import imagen from './Images/cryptomonedas.png';
 import Form from './Components/Form';
+import axios from 'axios';
 
 const Contenedor = styled.div`
   max-width: 900px;
@@ -34,6 +35,23 @@ const Heading = styled.h1`
 `;
 
 function App() {
+
+  const [money, setMoney] = useState('');
+  const [cryptoCurrency, setCryptoCurrency] = useState('');
+
+  useEffect(() => {
+    const cotizacionCrypto = async () => {
+      // evitamos la ejecucion la primera vez
+      if (money === '' || cryptoCurrency === '') return;
+      // consultar la API para obtener la cotizacion
+      const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${cryptoCurrency}&tsyms=${money}`
+      const resultado = await axios.get(url)
+      console.log(resultado.data.DISPLAY[cryptoCurrency][money])
+    }
+    cotizacionCrypto()
+  }, [money, cryptoCurrency])
+
+
   return (
     <Contenedor>
       <div>
@@ -41,7 +59,10 @@ function App() {
       </div>
       <div>
         <Heading>Quote cryptocurrency faster than ever!</Heading>
-        <Form />
+        <Form
+          setMoney={setMoney}
+          setCryptoCurrency={setCryptoCurrency}
+        />
       </div>
     </Contenedor>
   );
