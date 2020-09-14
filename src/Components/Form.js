@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import useMoney from '../Hooks/useMoney';
 import useCryptoCurrency from '../Hooks/useCryptoCurrency';
 import axios from 'axios';
+import Error from './Error';
 
 const Boton = styled.input`
     margin-top: 20px;
@@ -36,10 +37,10 @@ const Form = () => {
     ]
     
     // utilizar useMoney
-    const [state, Seleccionar, setState] = useMoney('Elige tu moneda', '', MONEDAS);
+    const [money, Seleccionar, setMoney] = useMoney('Elige tu moneda', '', MONEDAS);
 
     // utilizar useCriptocurrency
-    const [Crypto, SelectCrypto, setCrypto] = useCryptoCurrency('Elige tu criptomoneda', '', cryptoList);
+    const [crypto, SelectCrypto, setCrypto] = useCryptoCurrency('Elige tu criptomoneda', '', cryptoList);
 
 
     const APIrequest = async() => {
@@ -55,10 +56,18 @@ const Form = () => {
 
     const cotizarMoneda = (e) => {
         e.preventDefault();
+        // validar si ambos campos estan llenos
+        if(money === '' || crypto === ''){
+            setError(true);
+            return;
+        }
+        // Pasar los datos al componente principal
+        setError(false);
     }
 
     return (
-        <form onsubmit={cotizarMoneda} >
+        <form onSubmit={cotizarMoneda} >
+            {error ? <Error mensaje='All inputs are required' />: null}
             <Seleccionar />
             <SelectCrypto />
             <Boton type='submit' value='Calculate' />
