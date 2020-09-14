@@ -3,7 +3,8 @@ import styled from '@emotion/styled';
 import imagen from './Images/cryptomonedas.png';
 import Form from './Components/Form';
 import axios from 'axios';
-import Quote from './Components/Quote'
+import Quote from './Components/Quote';
+import Spinner from './Components/Spinner';
 
 const Contenedor = styled.div`
   max-width: 900px;
@@ -41,6 +42,7 @@ function App() {
   const [cryptoCurrency, setCryptoCurrency] = useState('');
   // state de respuesta de API
   const [result, setResult] = useState({});
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const cotizacionCrypto = async () => {
@@ -49,11 +51,19 @@ function App() {
       // consultar la API para obtener la cotizacion
       const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${cryptoCurrency}&tsyms=${money}`
       const resultado = await axios.get(url)
+      // mostrar spinner
+      setLoading(true);
+      // ocultar spinner y mostrar result
+      setTimeout(()=>{
+        setLoading(false);
+      }, 2000)
       setResult(resultado.data.DISPLAY[cryptoCurrency][money])
     }
     cotizacionCrypto()
   }, [money, cryptoCurrency])
 
+  // mostrar spinner o resultado
+  const componente = (loading) ? <Spinner /> : <Quote result={result} />
 
   return (
     <Contenedor>
@@ -66,7 +76,7 @@ function App() {
           setMoney={setMoney}
           setCryptoCurrency={setCryptoCurrency}
         />
-        <Quote result={result} />
+        {componente}
       </div>
     </Contenedor>
   );
