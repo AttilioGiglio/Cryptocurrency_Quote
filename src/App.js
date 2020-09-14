@@ -12,12 +12,10 @@ const Contenedor = styled.div`
     column-gap: 2rem;
   }
 `;
-
 const Imagen = styled.img`
   max-width: 100%;
   margin-top: 5rem;
 `;
-
 const Heading = styled.h1`
   font-family: 'Bebas Neue', cursive;
   color: #FFF;
